@@ -26,7 +26,8 @@ Item {
     Label {
       opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
 
-      color: theme.textColor
+      //color: theme.textColor
+      color: "red"
       font.pixelSize: fontMetrics.font.pixelSize * 1.25
       horizontalAlignment: Text.AlignHCenter
       verticalAlignment: Text.AlignVCenter

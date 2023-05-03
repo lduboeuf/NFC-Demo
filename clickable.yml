@@ -1,0 +1,4 @@
+builder: qmake
+kill: nfc-demo
+build_args: CONFIG+=UBUNTU_TOUCH
+skip_review: true

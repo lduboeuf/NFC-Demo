@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=nfc-demo
+Comment=NFC Demo
+Exec=nfc-demo
+Icon=assets/bake.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
+Keywords=nfc;

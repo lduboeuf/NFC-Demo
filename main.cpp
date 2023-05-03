@@ -5,13 +5,16 @@
 
 int main(int argc, char *argv[])
 {
+
+    QCoreApplication::setOrganizationName("nfc-demo.lduboeuf");
+    QCoreApplication::setApplicationName("nfc-demo");
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    NFCManager *nfcManager = new NFCManager(&app);
-    engine.rootContext()->setContextProperty("nfcManager", nfcManager);
+    NFCManager nfcManager;
+    engine.rootContext()->setContextProperty("nfcManager", &nfcManager);
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

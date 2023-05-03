@@ -29,7 +29,6 @@ class NFCManager : public QObject
     Q_PROPERTY(bool hasTagInRange READ hasTagInRange NOTIFY hasTagInRangeChanged)
     Q_PROPERTY(ActionType actionType READ actionType WRITE setActionType NOTIFY actionTypeChanged)
     Q_PROPERTY(Record record READ record NOTIFY recordChanged)
-    QML_ELEMENT
 
 public:
     explicit NFCManager(QObject *parent = nullptr);
@@ -46,20 +45,21 @@ public:
     ActionType actionType() const;
     Record record() const;
 
-public slots:
+public Q_SLOTS:
     void startReading();
     void stopDetecting();
     void saveRecord(const QString &dishName, int seconds);
 
-signals:
+Q_SIGNALS:
     void hasTagInRangeChanged(bool hasTagInRange);
     void actionTypeChanged(ActionType actionType);
     void recordChanged(const Record &record);
+    void totoChanged(const QString &record);
 
     void wroteSuccessfully();
     void nfcError(const QString &error);
 
-private slots:
+private Q_SLOTS:
     void setActionType(ActionType actionType);
     void setHasTagInRange(bool hasTagInRange);
 

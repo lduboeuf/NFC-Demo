@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import com.scythestudio.nfc 1.0
+//import com.scythestudio.nfc 1.0
 import "../"
 import "../controls"
 
@@ -136,7 +136,7 @@ Item {
       id: noTagInRangeText
 
       width: parent.width * 0.8
-      visible: !nfcManager.hasTagInRange && nfcManager.actionType === NFCManager.Writing
+      visible: !nfcManager.hasTagInRange && nfcManager.actionType === nfcManager.Writing
 
       anchors {
         top: parent.top
@@ -198,11 +198,11 @@ Item {
     target: nfcManager
     enabled: root.visible
 
-    function onNfcError(error) {
+    onNfcError: {
       popup.show(error, true)
     }
 
-    function onWroteSuccessfully() {
+    onWroteSuccessfully: {
       popup.show("NFC Tag Saved Successfully", false)
     }
   }

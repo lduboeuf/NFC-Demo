@@ -33,6 +33,31 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+UBUNTU_TOUCH {
+    message("building for Ubuntu Touch")
+    target.path = /
+
+    # figure out the current build architecture
+    CLICK_ARCH=$$system(dpkg-architecture -qDEB_HOST_ARCH)
+
+    # substitute the architecture in the manifest file
+    QMAKE_SUBSTITUTES += $$PWD/manifest.json.in
+    manifest.files = manifest.json
+    manifest.path = /
+    INSTALLS += manifest
+
+
+    click_files.path = /
+    click_files.files = manifest.json nfc-demo.apparmor nfc-demo.desktop
+
+    logo.path = /assets
+    logo.files = $$PWD/assets/bake.png
+
+    INSTALLS+=click_files logo
+}
+
+
+
 DISTFILES += \
     android/AndroidManifest.xml \
     android/build.gradle \

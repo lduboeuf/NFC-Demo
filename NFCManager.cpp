@@ -39,7 +39,7 @@ void NFCManager::setActionType(NFCManager::ActionType actionType)
     }
 
     m_actionType = actionType;
-    emit actionTypeChanged(m_actionType);
+    Q_EMIT actionTypeChanged(m_actionType);
 }
 
 void NFCManager::setHasTagInRange(bool hasTagInRange)
@@ -49,7 +49,7 @@ void NFCManager::setHasTagInRange(bool hasTagInRange)
     }
 
     m_hasTagInRange = hasTagInRange;
-    emit hasTagInRangeChanged(m_hasTagInRange);
+    Q_EMIT hasTagInRangeChanged(m_hasTagInRange);
 }
 
 void NFCManager::startReading()
@@ -80,6 +80,8 @@ void NFCManager::onTargetDetected(QNearFieldTarget *target)
 {
     setHasTagInRange(true);
 
+    qDebug() << "kikou  onTargetDetected";
+
     switch (m_actionType) {
     case None:
         break;
@@ -87,6 +89,7 @@ void NFCManager::onTargetDetected(QNearFieldTarget *target)
         connect(target, &QNearFieldTarget::ndefMessageRead, this, &NFCManager::onNdefMessageRead);
         connect(target, &QNearFieldTarget::error, this, &NFCManager::handleTargetError);
 
+        qDebug() << "kikou  Reading";
         m_request = target->readNdefMessages();
         if (!m_request.isValid()) {
             handleTargetError(QNearFieldTarget::NdefReadError, m_request);
@@ -126,9 +129,11 @@ void NFCManager::onNdefMessageRead(const QNdefMessage &message)
     m_request = QNearFieldTarget::RequestId();
 
     if (recordFound) {
-        emit recordChanged(m_record);
+        qDebug() << "kikou found";
+        Q_EMIT recordChanged(m_record);
+        //Q_EMIT totoChanged("kikou found");
     } else {
-        emit nfcError("Tag does not contain desired record or is malformed");
+        Q_EMIT nfcError("Tag does not contain desired record or is malformed");
     }
 }
 
@@ -137,7 +142,7 @@ void NFCManager::onNdefMessageWritten()
     stopDetecting();
     m_request = QNearFieldTarget::RequestId();
 
-    emit wroteSuccessfully();
+    Q_EMIT wroteSuccessfully();
 }
 
 void NFCManager::handleTargetError(QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id)
@@ -174,12 +179,14 @@ void NFCManager::handleTargetError(QNearFieldTarget::Error error, const QNearFie
             errorMsg = "Unknown error";
         }
 
+        qDebug() << "error" << errorMsg;
+
         m_manager->setTargetAccessModes(QNearFieldManager::NoTargetAccess);
         m_manager->stopTargetDetection();
         m_request = QNearFieldTarget::RequestId();
 
         if (!errorMsg.isEmpty()) {
-            emit nfcError(errorMsg);
+            Q_EMIT nfcError(errorMsg);
         }
     }
 }
@@ -191,6 +198,7 @@ Record NFCManager::record() const
 
 bool Record::parseNdefMessage(const QNdefNfcTextRecord &record)
 {
+    qDebug() << "record.text()" << record.text().toUtf8();
     const QJsonDocument &doc = QJsonDocument::fromJson(record.text().toUtf8());
     const QJsonObject &recordObject = doc.object();
 

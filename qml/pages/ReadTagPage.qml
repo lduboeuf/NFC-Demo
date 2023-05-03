@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import com.scythestudio.nfc 1.0
+//import com.scythestudio.nfc 1.0
 import "../"
 import "../controls"
 
@@ -12,7 +12,7 @@ Item {
     id: noTagInRangeText
 
     width: parent.width * 0.8
-    visible: !nfcManager.hasTagInRange && nfcManager.actionType === NFCManager.Reading
+    visible: !nfcManager.hasTagInRange && nfcManager.actionType === nfcManager.Reading
 
     anchors {
       top: parent.top
@@ -50,6 +50,8 @@ Item {
   }
 
   onVisibleChanged: {
+          console.log('olala', visible)
+
     if (visible) {
       startReading()
     }
@@ -59,8 +61,14 @@ Item {
     target: nfcManager
     enabled: root.visible
 
-    function onRecordChanged(record) {
+    onRecordChanged: {
+        console.log("onRecordChanged", record)
       root.tagFound(record.dishName, record.seconds)
+    }
+
+    onTotoChanged: {
+            console.log("onRecordChanged", record)
+          //root.tagFound(record.dishName, record.seconds)
     }
 
     function onNfcError(error) {

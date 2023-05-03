@@ -1,0 +1,15 @@
+{
+    \"name\": \"nfc-demo.lduboeuf\",
+    \"description\": \"NFC Demo\",
+    \"architecture\": \"$${CLICK_ARCH}\",
+    \"title\": \"nfc-demo\",
+    \"hooks\": {
+        \"nfc-demo\": {
+            \"apparmor\": \"nfc-demo.apparmor\",
+            \"desktop\":  \"nfc-demo.desktop\"
+        }
+    },
+    \"version\": \"0.1\",
+    \"maintainer\": \"lionel <lduboeuf@tartuff.com>\",
+    \"framework\" : \"$${CLICK_FRAMEWORK}\"
+}
